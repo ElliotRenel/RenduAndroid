@@ -1,25 +1,12 @@
-package com.example.myapplication;
-
+package com.example.imageeditor.effects;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+public class Effects {
 
-public class MainActivity extends AppCompatActivity {
-    Bitmap bit0,bit,bit_b,bit_g,bit_c,bit_t;
-    ImageView iv;
-    TextView tv, t_sk;
-    SeekBar sk;
-    int color_slide;
+    public Effects(){}
 
     private void rgb_to_hsv(float red, float green, float blue, float[] hsv) {
         float red_ = red/255;
@@ -146,24 +133,24 @@ public class MainActivity extends AppCompatActivity {
             C[i] = C[i-1] + hist[i];
         }
     }
-/*
-    private  void  toGrayRS(Bitmap  bmp) {
-        RenderScript rs = RenderScript.create(this);
+    /*
+        private  void  toGrayRS(Bitmap  bmp) {
+            RenderScript rs = RenderScript.create(this);
 
-        Allocation input = Allocation.createFromBitmap(rs , bmp);
-        Allocation  output= Allocation.createTyped(rs , input.getType ());
+            Allocation input = Allocation.createFromBitmap(rs , bmp);
+            Allocation  output= Allocation.createTyped(rs , input.getType ());
 
-        ScriptC_gray grayScript = new  ScriptC_gray(rs);
+            ScriptC_gray grayScript = new  ScriptC_gray(rs);
 
-        grayScript.forEach_gray(input , output);
+            grayScript.forEach_gray(input , output);
 
-        output.copyTo(bmp);
+            output.copyTo(bmp);
 
-        input.destroy (); output.destroy ();
-        grayScript.destroy (); rs.destroy ();
-    }
-*/
-    void toGray2(Bitmap bmp){
+            input.destroy (); output.destroy ();
+            grayScript.destroy (); rs.destroy ();
+        }
+    */
+    public void toGray2(Bitmap bmp){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
         int size = w*h;
@@ -180,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
 
-    void contrastLinearGrey(Bitmap bmp){
+    public void contrastLinearGrey(Bitmap bmp){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
         int size = w*h;
@@ -212,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
 
-    void contrastLinearColor(Bitmap bmp){
+    public void contrastLinearColor(Bitmap bmp){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
         int size = w*h;
@@ -266,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
 
-    void contrastEqualGrey(Bitmap bmp){
+    public void contrastEqualGrey(Bitmap bmp){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
         int size = w*h;
@@ -288,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
 
-    void contrastEqualColor(Bitmap bmp){
+    public void contrastEqualColor(Bitmap bmp){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
         int size = w*h;
@@ -318,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
 
-    void keepColor(Bitmap bmp, int color, int range){
+    public void keepColor(Bitmap bmp, int color, int range){
         color = (color%360);
         int w = bmp.getWidth();
         int h = bmp.getHeight();
@@ -341,213 +328,5 @@ public class MainActivity extends AppCompatActivity {
         }
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Log.i("Deb","create"+System.getProperty("user.dir"));
-
-        // Displaying Image
-        iv = findViewById(R.id.imgView);
-        bit_b = BitmapFactory.decodeResource(getResources(),R.drawable.color_beach);
-        bit_g = BitmapFactory.decodeResource(getResources(),R.drawable.graydune);
-        bit_t = BitmapFactory.decodeResource(getResources(),R.drawable.cute_dog);
-        bit_c = BitmapFactory.decodeResource(getResources(),R.drawable.color);
-        bit0 = bit_b.copy(bit_b.getConfig(),false);
-        bit = bit0.copy(bit0.getConfig(),true);
-        iv.setImageBitmap(bit);
-
-        tv = (TextView) findViewById(R.id.size_t);
-        String w = Integer.toString(bit.getWidth());
-        String h = Integer.toString(bit.getHeight());
-        tv.setText(w+"x"+h);
-
-        sk = findViewById(R.id.seekBar);
-        t_sk = findViewById(R.id.seek_value);
-        color_slide = sk.getProgress();
-        t_sk.setText("Progress: " + color_slide);
-
-        sk.setOnSeekBarChangeListener(seekBarChangeListener);
-        //Picture modification buttons
-
-        //Reset
-        Button reset = findViewById(R.id.reset_b);
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iv.setImageBitmap(bit0);
-                bit = bit0.copy(bit0.getConfig(),true);
-            }
-        });
-
-
-        //Gray Scale
-        Button gray = findViewById(R.id.gray_b);
-        gray.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toGray2(bit);
-                iv.setImageBitmap(bit);
-            }
-        });
-
-        //Keep color
-        Button keep = findViewById(R.id.keep_b);
-        keep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                keepColor(bit,color_slide,50);
-                iv.setImageBitmap(bit);
-            }
-        });
-
-        //Contrast
-        //Equal Color
-        Button contrastec = findViewById(R.id.contrastec_b);
-        contrastec.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                contrastEqualColor(bit);
-                iv.setImageBitmap(bit);
-            }
-        });
-
-        //Equal Grey
-        Button contrasteg = findViewById(R.id.contrasteg_b);
-        contrasteg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                contrastEqualGrey(bit);
-                iv.setImageBitmap(bit);
-            }
-        });
-
-        //Linear Grey
-        Button contrastlg = findViewById(R.id.contrastlg_b);
-        contrastlg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                contrastLinearGrey(bit);
-                iv.setImageBitmap(bit);
-            }
-        });
-
-        //Linear Color
-        Button contrastlc = findViewById(R.id.contrastlc_b);
-        contrastlc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                contrastLinearColor(bit);
-                iv.setImageBitmap(bit);
-            }
-        });
-
-        //Change picture buttons
-
-        Button but2 = findViewById(R.id.beach_b);
-        but2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bit0 = bit_b.copy(bit_b.getConfig(),false);
-                bit = bit0.copy(bit0.getConfig(),true);
-                iv.setImageBitmap(bit);
-                String w = Integer.toString(bit.getWidth());
-                String h = Integer.toString(bit.getHeight());
-                tv.setText(w+"x"+h);
-            }
-        });
-
-        Button but3 = findViewById(R.id.wheel_b);
-        but3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bit0 = bit_c.copy(bit_c.getConfig(),false);
-                bit = bit0.copy(bit0.getConfig(),true);
-                iv.setImageBitmap(bit);
-                String w = Integer.toString(bit.getWidth());
-                String h = Integer.toString(bit.getHeight());
-                tv.setText(w+"x"+h);
-            }
-        });
-
-        Button but4 = findViewById(R.id.dune_b);
-        but4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bit0 = bit_g.copy(bit_g.getConfig(),false);
-                bit = bit0.copy(bit0.getConfig(),true);
-                iv.setImageBitmap(bit);
-                String w = Integer.toString(bit.getWidth());
-                String h = Integer.toString(bit.getHeight());
-                tv.setText(w+"x"+h);
-            }
-        });
-
-        Button but5 = findViewById(R.id.dog_b);
-        but5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bit0 = bit_t.copy(bit_t.getConfig(),false);
-                bit = bit0.copy(bit0.getConfig(),true);
-                iv.setImageBitmap(bit);
-                String w = Integer.toString(bit.getWidth());
-                String h = Integer.toString(bit.getHeight());
-                tv.setText(w+"x"+h);
-            }
-        });
-    }
-
-        SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
-
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            // updated continuously as the user slides the thumb
-            t_sk.setText("Progress: " + progress);
-            color_slide = progress;
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-            // called when the user first touches the SeekBar
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            // called after the user finishes moving the SeekBar
-        }
-    };
-
-
-    protected void onStart() {
-        super.onStart();
-        Log.i("Deb","start");
-    }
-
-    protected void onResume(){
-        super.onResume();
-        Log.i("Deb","resume");
-    }
-
-    protected void onPause(){
-        super.onPause();
-        Log.i("Deb","pause");
-    }
-
-    protected void onStop(){
-        super.onStop();
-        Log.i("Deb","stop");
-    }
-
-    protected void onRestart(){
-        super.onRestart();
-        Log.i("Deb","restart");
-    }
-
-    protected void onDestroy(){
-        super.onDestroy();
-        Log.i("Deb","destroy");
-    }
-
 
 }
