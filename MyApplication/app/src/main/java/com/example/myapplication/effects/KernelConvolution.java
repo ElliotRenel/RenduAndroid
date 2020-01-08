@@ -23,7 +23,7 @@ public class KernelConvolution {
         if(inverse==0){
             return InnerMethods.mapTo0_1(somme,-1,1);
         }
-        return (somme/(inverse));
+        return somme/inverse;
     }
 
     private static void convolution(Bitmap bmp, Matrice mask){
@@ -33,17 +33,16 @@ public class KernelConvolution {
         int[] rgb_pixels = new int[size];
         bmp.getPixels(rgb_pixels ,0,w,0,0,w,h);
         double[] pixels = InnerMethods.rgb_to_v(rgb_pixels);
-        double[] newpixels = pixels.clone();
 
         int dim = mask.getDim()/2;
 
         for(int i=dim; i<w-dim; i++){
             for(int j=dim; j<h-dim;j++){
-                newpixels[i+j*w] = applyMask(mask,pixels,i,j,w);
+                rgb_pixels[i+j*w] = InnerMethods.v_to_rgb(rgb_pixels[i+j*w],applyMask(mask,pixels,i,j,w));
             }
         }
 
-        bmp.setPixels(InnerMethods.v_to_rgb(rgb_pixels,newpixels),0,w,0,0,w,h);
+        bmp.setPixels(rgb_pixels,0,w,0,0,w,h);
 
     }
 

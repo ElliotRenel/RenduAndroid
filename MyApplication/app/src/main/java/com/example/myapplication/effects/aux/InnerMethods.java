@@ -106,15 +106,11 @@ public class InnerMethods {
         return V;
     }
 
-    public static int[] v_to_rgb(int[] old_rgb, double[] V){
-        int[] new_rgb = new int[old_rgb.length];
-        for(int i=0; i<old_rgb.length; i++){
-            float[] hsv = new float[3];
-            rgb_to_hsv(old_rgb[i],hsv);
-            hsv[2] = (float)V[i];
-            new_rgb[i] = hsv_to_rgb(hsv);
-        }
-        return new_rgb;
+    public static int v_to_rgb(int old_rgb, double V){
+        float[] hsv = new float[3];
+        rgb_to_hsv(old_rgb,hsv);
+        hsv[2] = (float)V;
+        return hsv_to_rgb(hsv);
     }
 
     public static void bitmapToHistGray(Bitmap bmp, int[] hist){

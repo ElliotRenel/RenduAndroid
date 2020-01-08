@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     Bitmap bit0,bit;
     Bitmap[] bits;
     ImageView iv;
-    TextView tv, t_sk;
+    TextView tv, t_sk_k,t_sk_c;
     SeekBar sk_k,sk_c;
     int color_kept, color_colorize, current_bit;
 
@@ -28,19 +28,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.i("Deb","create"+System.getProperty("user.dir"));
 
-        // Displaying Image
+        // Loading and displaying Image
         iv = findViewById(R.id.imgView);
 
         bits = new Bitmap[7];
-        bits[0] = BitmapFactory.decodeResource(getResources(),R.drawable.cute_dog);
-        bits[1] = BitmapFactory.decodeResource(getResources(),R.drawable.conv_grey);
-        bits[2] = BitmapFactory.decodeResource(getResources(),R.drawable.color_forest);
-        bits[3] = BitmapFactory.decodeResource(getResources(),R.drawable.color);
-        bits[4] = BitmapFactory.decodeResource(getResources(),R.drawable.color_bird);
-        bits[5] = BitmapFactory.decodeResource(getResources(),R.drawable.squirel);
-        bits[6] = BitmapFactory.decodeResource(getResources(),R.drawable.gray_lady);
-        current_bit = 6;
-        bit0 = bits[current_bit].copy(bits[0].getConfig(),false);
+        bits[0] = BitmapFactory.decodeResource(getResources(),R.drawable.color_forest);
+        bits[1] = BitmapFactory.decodeResource(getResources(),R.drawable.squirel);
+        bits[2] = BitmapFactory.decodeResource(getResources(),R.drawable.cute_dog);
+        bits[3] = BitmapFactory.decodeResource(getResources(),R.drawable.color_bird);
+        bits[4] = BitmapFactory.decodeResource(getResources(),R.drawable.conv_grey);
+        bits[5] = BitmapFactory.decodeResource(getResources(),R.drawable.gray_lady);
+        bits[6] = BitmapFactory.decodeResource(getResources(),R.drawable.color);
+        current_bit = 0;
+        bit0 = bits[current_bit].copy(bits[current_bit].getConfig(),false);
         bit = bit0.copy(bit0.getConfig(),true);
         iv.setImageBitmap(bit);
 
@@ -51,16 +51,16 @@ public class MainActivity extends AppCompatActivity {
 
         //Config for Keep Color seek bar
         sk_k = findViewById(R.id.seekBar_keep);
-        t_sk = findViewById(R.id.seek_value_k);
+        t_sk_k = findViewById(R.id.seek_value_k);
         color_kept = sk_k.getProgress();
-        t_sk.setText(color_kept+"°");
+        t_sk_k.setText(color_kept+"°");
         sk_k.setOnSeekBarChangeListener(seekBarKeepColor);
 
         //Config for Colorize seek bar
         sk_c = findViewById(R.id.seekBar_colorize);
-        t_sk = findViewById(R.id.seek_value_c);
+        t_sk_c = findViewById(R.id.seek_value_c);
         color_colorize = sk_c.getProgress();
-        t_sk.setText(color_colorize+"°");
+        t_sk_c.setText(color_colorize+"°");
         sk_c.setOnSeekBarChangeListener(seekBarColorize);
 
 
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             // updated continuously as the user slides the thumb
-            t_sk.setText(progress+"°");
+            t_sk_k.setText(progress+"°");
             color_kept = progress;
         }
 
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             // updated continuously as the user slides the thumb
-            t_sk.setText(progress+"°");
+            t_sk_c.setText(progress+"°");
             color_kept = progress;
         }
 
