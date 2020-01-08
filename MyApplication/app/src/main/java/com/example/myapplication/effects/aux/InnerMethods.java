@@ -175,4 +175,8 @@ public class InnerMethods {
         }
     }
 
+    public static double mapTo0_1(double value, double min, double max){
+        return (value-min)/Math.abs(max-min);
+    }
+
 }

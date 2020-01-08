@@ -15,14 +15,16 @@ public class KernelConvolution {
         double somme = 0;
         double inverse =0;
 
-        for(int i=x-dim2; i<x+dim2+1; i++){
-            for(int j=y-dim2; j<y+dim2+1; j++){
-                somme += pixels[j*w+i] * (double)mask.getValue(i-(x-dim2),j-(y-dim2));
-                inverse += (double)mask.getValue(i-(x-dim2),j-(y-dim2));
+        for(int i=x-dim2; i<x+dim2+1; i++) {
+            for (int j = y - dim2; j < y + dim2 + 1; j++) {
+                somme += pixels[j * w + i] * (double) mask.getValue(i - (x - dim2), j - (y - dim2));
+                inverse += (double) mask.getValue(i - (x - dim2), j - (y - dim2));
             }
         }
-        //Log.i("Inverse",inverse+" / "+mask.getInverse());
-        return (somme<0)?0:(somme/(double)mask.getInverse());
+        if(inverse==0){
+            return InnerMethods.mapTo0_1(somme,-1,1);
+        }
+        return (somme/(inverse));
     }
 
     private static void convolution(Bitmap bmp, Matrice mask){
