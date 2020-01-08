@@ -2,6 +2,7 @@ package com.example.myapplication.effects;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.example.myapplication.effects.aux.InnerMethods;
 
@@ -39,6 +40,29 @@ public class Contrast {
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
 
+    public static void contrastEqualGrey(Bitmap bmp){
+        int w = bmp.getWidth();
+        int h = bmp.getHeight();
+        int size = w*h;
+        int[] pixels = new int[size];
+        bmp.getPixels(pixels,0,w,0,0,w,h);
+
+        int[] hist = new int[256];
+        InnerMethods.bitmapToHistGray(bmp,hist);
+
+        int[] C = new int[256];
+        InnerMethods.histToCumul(hist,C,256);
+
+        for(int i =0; i<size; i++){
+            long r = (C[Color.red(pixels[i])]*(long)255)/(long)size;
+            long g = (C[Color.green(pixels[i])]*(long)255)/(long)size;
+            long b = (C[Color.blue(pixels[i])]*(long)255)/(long)size;
+            pixels[i] = Color.argb(Color.alpha(pixels[i]),(int)r,(int)g,(int)b);
+        }
+        bmp.setPixels(pixels,0,w,0,0,w,h);
+    }
+
+
     public static void contrastLinearColor(Bitmap bmp){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
@@ -64,35 +88,14 @@ public class Contrast {
         }
 
         for(int i=0; i<size; i++){
-            float hsv[] = new float[3];
+            float[] hsv = new float[3];
             InnerMethods.rgb_to_hsv(pixels[i],hsv);
-            hsv[2] = (100*(hsv[2]*100)-min)/(max-min)/100;
+            hsv[2] = ((100/(max-min))*(hsv[2]*100)-min)/100;
             pixels[i] = InnerMethods.hsv_to_rgb(hsv);
         }
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
 
-    public static void contrastEqualGrey(Bitmap bmp){
-        int w = bmp.getWidth();
-        int h = bmp.getHeight();
-        int size = w*h;
-        int[] pixels = new int[size];
-        bmp.getPixels(pixels,0,w,0,0,w,h);
-
-        int[] hist = new int[256];
-        InnerMethods.bitmapToHistGray(bmp,hist);
-
-        int[] C = new int[256];
-        InnerMethods.histToCumul(hist,C,256);
-
-        for(int i =0; i<size; i++){
-            long r = (C[Color.red(pixels[i])]*(long)255)/(long)size;
-            long g = (C[Color.green(pixels[i])]*(long)255)/(long)size;
-            long b = (C[Color.blue(pixels[i])]*(long)255)/(long)size;
-            pixels[i] = Color.argb(Color.alpha(pixels[i]),(int)r,(int)g,(int)b);
-        }
-        bmp.setPixels(pixels,0,w,0,0,w,h);
-    }
 
     public static void contrastEqualColor(Bitmap bmp){
         int w = bmp.getWidth();
@@ -108,10 +111,12 @@ public class Contrast {
         InnerMethods.histToCumul(hist,C,101);
 
         for(int i =0; i<size; i++){
-            //long r = (C_r[Color.red(pixels[i])]*(long)255)/(long)size;
-            float hsv[] = new float[3];
+            float[] hsv = new float[3];
             InnerMethods.rgb_to_hsv(pixels[i],hsv);
-            hsv[2] = ((float)C[(int)(hsv[2]*100)])*100/(float)(size*100);
+            hsv[2] = (((float)C[(int)(hsv[2]*100)])*100)/(float)(size*100);
+            if(hsv[2] >1 || hsv[2] <0){
+                Log.i("Cont",hsv[2] +"");
+            }
             pixels[i] = InnerMethods.hsv_to_rgb(hsv);
         }
         bmp.setPixels(pixels,0,w,0,0,w,h);

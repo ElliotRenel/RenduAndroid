@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -32,13 +31,16 @@ public class MainActivity extends AppCompatActivity {
         // Displaying Image
         iv = findViewById(R.id.imgView);
 
-        bits = new Bitmap[4];
-        bits[0] = BitmapFactory.decodeResource(getResources(),R.drawable.squirel);
+        bits = new Bitmap[7];
+        bits[0] = BitmapFactory.decodeResource(getResources(),R.drawable.cute_dog);
         bits[1] = BitmapFactory.decodeResource(getResources(),R.drawable.conv_grey);
         bits[2] = BitmapFactory.decodeResource(getResources(),R.drawable.color_forest);
         bits[3] = BitmapFactory.decodeResource(getResources(),R.drawable.color);
-        current_bit = 0;
-        bit0 = bits[0].copy(bits[0].getConfig(),false);
+        bits[4] = BitmapFactory.decodeResource(getResources(),R.drawable.color_bird);
+        bits[5] = BitmapFactory.decodeResource(getResources(),R.drawable.squirel);
+        bits[6] = BitmapFactory.decodeResource(getResources(),R.drawable.gray_lady);
+        current_bit = 6;
+        bit0 = bits[current_bit].copy(bits[0].getConfig(),false);
         bit = bit0.copy(bit0.getConfig(),true);
         iv.setImageBitmap(bit);
 
@@ -47,12 +49,14 @@ public class MainActivity extends AppCompatActivity {
         String h = Integer.toString(bit.getHeight());
         tv.setText(w+"x"+h);
 
+        //Config for Keep Color seek bar
         sk_k = findViewById(R.id.seekBar_keep);
         t_sk = findViewById(R.id.seek_value_k);
         color_kept = sk_k.getProgress();
         t_sk.setText(color_kept+"°");
         sk_k.setOnSeekBarChangeListener(seekBarKeepColor);
 
+        //Config for Colorize seek bar
         sk_c = findViewById(R.id.seekBar_colorize);
         t_sk = findViewById(R.id.seek_value_c);
         color_colorize = sk_c.getProgress();
@@ -63,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
         //Picture modification buttons
 
         //Reset
-        Button reset = findViewById(R.id.reset_b);
-        reset.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.reset_b).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 iv.setImageBitmap(bit0);
@@ -74,8 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Gray Scale
-        Button gray = findViewById(R.id.gray_b);
-        gray.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.gray_b).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ColorEffects.toGray(bit);
@@ -85,9 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Contrast
 
-        //Equal Color
-        Button contrastec = findViewById(R.id.contrastec_b);
-        contrastec.setOnClickListener(new View.OnClickListener() {
+        //Equal
+        findViewById(R.id.contrast_equal_b).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Contrast.contrastEqualColor(bit);
@@ -96,18 +97,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Equal Grey
-        Button contrasteg = findViewById(R.id.contrasteg_b);
-        contrasteg.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.contrast_linear_b).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Contrast.contrastEqualGrey(bit);
+                Contrast.contrastLinearColor(bit);
                 iv.setImageBitmap(bit);
             }
         });
 
         //Convolution
-        Button simple_blur= findViewById(R.id.simpleblur_b);
-        simple_blur.setOnClickListener(new View.OnClickListener() {
+
+        //Simple Blur
+        findViewById(R.id.simpleblur_b).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 KernelConvolution.simpleBlur(bit);
@@ -115,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button gauss_blur = findViewById(R.id.gauss_b);
-        gauss_blur.setOnClickListener(new View.OnClickListener() {
+        //Gaussian Blur
+        findViewById(R.id.gauss_b).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 KernelConvolution.simpleGaussian(bit);
@@ -124,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button laplace_gaussian = findViewById(R.id.laplace_b);
-        laplace_gaussian.setOnClickListener(new View.OnClickListener() {
+        //Laplacian and Gaussian effect
+        findViewById(R.id.laplace_b).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 KernelConvolution.LaplacianGaussian(bit);
@@ -134,13 +135,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //Change picture buttons
+        //Change picture button
 
-        Button but2 = findViewById(R.id.switch_b);
-        but2.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.switch_b).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                current_bit = (current_bit+1)%4;
+                current_bit = (current_bit+1)%bits.length;
                 bit0 = bits[current_bit].copy(bits[current_bit].getConfig(),false);
                 bit = bit0.copy(bit0.getConfig(),true);
                 iv.setImageBitmap(bit);

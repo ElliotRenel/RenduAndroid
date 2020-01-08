@@ -1,12 +1,10 @@
 package com.example.myapplication.effects.aux;
 
-import android.util.Log;
-
 public class Matrice {
-    int dim;
-    int[][] values;
+    private int dim;
+    private int[][] values;
 
-    public Matrice(int dim){
+    private Matrice(int dim){
         this.dim = dim;
         values = new int[dim][dim];
     }
@@ -53,10 +51,6 @@ public class Matrice {
         }
 
         return str;
-    }
-
-    public void show(){
-        Log.i("Matrice",this.toString());
     }
 
 }

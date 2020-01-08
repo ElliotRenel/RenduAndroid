@@ -1,7 +1,6 @@
 package com.example.myapplication.effects;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import com.example.myapplication.effects.aux.InnerMethods;
 import com.example.myapplication.effects.aux.Matrice;
@@ -33,7 +32,7 @@ public class KernelConvolution {
         int size = w*h;
         int[] rgb_pixels = new int[size];
         bmp.getPixels(rgb_pixels ,0,w,0,0,w,h);
-        double[] pixels = InnerMethods.rgb_to_v(rgb_pixels, size);
+        double[] pixels = InnerMethods.rgb_to_v(rgb_pixels);
         double[] newpixels = pixels.clone();
 
         int dim = mask.getDim()/2;
@@ -74,19 +73,8 @@ public class KernelConvolution {
         convolution(bmp,custom);
     }
 
-    public static void custom(Bitmap bmp){
-        int[] mask = {
-                -1,-1,-1,
-                -1, 8,-1,
-                -1,-1,-1
-        };
-        Matrice custom = new Matrice(3,mask);
-
-        convolution(bmp,custom);
-    }
-
     public static void simpleBlur(Bitmap bmp){
-        Matrice simpleMask = new Matrice(5 ,1);
+        Matrice simpleMask = new Matrice(7 ,1);
 
         convolution(bmp,simpleMask);
     }
