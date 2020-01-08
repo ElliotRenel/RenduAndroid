@@ -7,11 +7,11 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/seek_value2"
+        android:id="@+id/KeepColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Keep Color"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar_keep"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
@@ -21,13 +21,15 @@
         android:layout_width="250dp"
         android:layout_height="263dp"
         android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/Colorize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seek_value" />
+        app:layout_constraintTop_toBottomOf="@+id/seek_value_k" />
 
     <SeekBar
-        android:id="@+id/seekBar"
+        android:id="@+id/seekBar_keep"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -89,14 +91,14 @@
         app:layout_constraintTop_toBottomOf="@+id/imgView" />
 
     <TextView
-        android:id="@+id/seek_value"
+        android:id="@+id/seek_value_k"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+        app:layout_constraintTop_toBottomOf="@+id/seekBar_keep" />
 
     <Button
         android:id="@+id/switch_b"
@@ -137,5 +139,36 @@
         android:text="Laplace"
         app:layout_constraintStart_toEndOf="@+id/contrasteg_b"
         app:layout_constraintTop_toBottomOf="@+id/gauss_b" />
+
+    <SeekBar
+        android:id="@+id/seekBar_colorize"
+        android:layout_width="0dp"
+        android:layout_height="21dp"
+        android:layout_marginBottom="32dp"
+        android:max="360"
+        android:progress="180"
+        app:layout_constraintBottom_toTopOf="@+id/switch_b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/seek_value_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar_colorize" />
+
+    <TextView
+        android:id="@+id/Colorize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Colorize"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar_colorize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

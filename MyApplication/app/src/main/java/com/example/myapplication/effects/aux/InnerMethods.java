@@ -52,6 +52,24 @@ public class InnerMethods {
         rgb_to_hsv(Color.red(pixel),Color.green(pixel),Color.blue(pixel),hsv);
     }
 
+    public static float[][] rgb_to_hsv(int pixels[]){
+        float result[][] = new float[pixels.length][3];
+        for(int i=0; i<pixels.length; i++){
+            rgb_to_hsv(pixels[i], result[i]);
+        }
+        return result;
+    }
+
+    public static int[] hsv_to_rgb(float hsv[][]){
+        int size = hsv.length;
+        int result[] = new int[size];
+        for(int i=0; i<size; i++){
+            result[i] = hsv_to_rgb(hsv[i]);
+        }
+        return result;
+    }
+
+
     public static int hsv_to_rgb(float hsv[]){
         float t = (int) (hsv[0]/60)%6;
         float f = (hsv[0]/60)- t;
@@ -177,6 +195,12 @@ public class InnerMethods {
 
     public static double mapTo0_1(double value, double min, double max){
         return (value-min)/Math.abs(max-min);
+    }
+
+    public static float mapColor(float H, float targetMin, float targetMax){
+        float length = Math.abs(targetMax+360-targetMin)%360;
+
+        return ((length/360)*H + targetMin)%360;
     }
 
 }

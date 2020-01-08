@@ -20,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
     Bitmap[] bits;
     ImageView iv;
     TextView tv, t_sk;
-    SeekBar sk;
-    int color_slide, current_bit;
+    SeekBar sk_k,sk_c;
+    int color_kept, color_colorize, current_bit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +47,19 @@ public class MainActivity extends AppCompatActivity {
         String h = Integer.toString(bit.getHeight());
         tv.setText(w+"x"+h);
 
-        sk = findViewById(R.id.seekBar);
-        t_sk = findViewById(R.id.seek_value);
-        color_slide = sk.getProgress();
-        t_sk.setText("Progress: " + color_slide);
+        sk_k = findViewById(R.id.seekBar_keep);
+        t_sk = findViewById(R.id.seek_value_k);
+        color_kept = sk_k.getProgress();
+        t_sk.setText(color_kept+"°");
+        sk_k.setOnSeekBarChangeListener(seekBarKeepColor);
 
-        sk.setOnSeekBarChangeListener(seekBarKeepColor);
+        sk_c = findViewById(R.id.seekBar_colorize);
+        t_sk = findViewById(R.id.seek_value_c);
+        color_colorize = sk_c.getProgress();
+        t_sk.setText(color_colorize+"°");
+        sk_c.setOnSeekBarChangeListener(seekBarColorize);
+
+
         //Picture modification buttons
 
         //Reset
@@ -143,14 +150,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-        // SeekBar for keep color (update the color kept when
+        // SeekBar for keep color (update the color kept when releasing scroll)
         SeekBar.OnSeekBarChangeListener seekBarKeepColor = new SeekBar.OnSeekBarChangeListener() {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             // updated continuously as the user slides the thumb
-            t_sk.setText("Progress: " + progress);
-            color_slide = progress;
+            t_sk.setText(progress+"°");
+            color_kept = progress;
         }
 
         @Override
@@ -162,20 +169,20 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             // called after the user finishes moving the SeekBar
-            ColorEffects.keepColor(bit,color_slide,50);
+            ColorEffects.keepColor(bit, color_kept,50);
             iv.setImageBitmap(bit);
         }
     };
 
 
-    // SeekBar for keep color (update the color kept when
+    // SeekBar for colorize (update the color used when releasing scroll)
     SeekBar.OnSeekBarChangeListener seekBarColorize = new SeekBar.OnSeekBarChangeListener() {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             // updated continuously as the user slides the thumb
-            t_sk.setText("Progress: " + progress);
-            color_slide = progress;
+            t_sk.setText(progress+"°");
+            color_kept = progress;
         }
 
         @Override
@@ -187,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             // called after the user finishes moving the SeekBar
-            ColorEffects.keepColor(bit,color_slide,50);
+            ColorEffects.colorize(bit, color_kept,20);
             iv.setImageBitmap(bit);
         }
     };
