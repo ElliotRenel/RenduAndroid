@@ -7,6 +7,10 @@ import com.example.myapplication.effects.aux.InnerMethods;
 
 public class ColorEffects {
 
+    /**
+     * Put an image into grey scale on given image
+     * @param bmp the bitmap image
+     */
     public static void toGray(Bitmap bmp){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
@@ -22,6 +26,12 @@ public class ColorEffects {
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
 
+    /**
+     * Put all color S value to 0 except those in a given interval of color on given image
+     * @param bmp the bitmap image
+     * @param color the color defining the interval's center (H value from 0 to 360)
+     * @param range the range defining the interval's width
+     */
     public static void keepColor(Bitmap bmp, int color, int range){
         color = (color%360);
         int w = bmp.getWidth();
@@ -45,6 +55,12 @@ public class ColorEffects {
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
 
+    /**
+     * Map all H color value of a given image to determined interval
+     * @param bmp the bitmap image
+     * @param color the color defining the interval's center (H value from 0 to 360)
+     * @param range the range defining the interval's width
+     */
     public static void colorize(Bitmap bmp, int color, int range){
         color = color%360;
         int w = bmp.getWidth();

@@ -8,6 +8,10 @@ import com.example.myapplication.effects.aux.InnerMethods;
 
 public class Contrast {
 
+    /**
+     * Apply a linear transformation of Histogram on the given image (only grey scale images)
+     * @param bmp the given image
+     */
     public static void contrastLinearGrey(Bitmap bmp){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
@@ -40,6 +44,10 @@ public class Contrast {
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
 
+    /**
+     * Apply an equalisation of Histogram on the given image (only grey scale images)
+     * @param bmp the given image
+     */
     public static void contrastEqualGrey(Bitmap bmp){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
@@ -51,7 +59,7 @@ public class Contrast {
         InnerMethods.bitmapToHistGray(bmp,hist);
 
         int[] C = new int[256];
-        InnerMethods.histToCumul(hist,C,256);
+        InnerMethods.histToCumul(hist,C);
 
         for(int i =0; i<size; i++){
             long r = (C[Color.red(pixels[i])]*(long)255)/(long)size;
@@ -62,7 +70,10 @@ public class Contrast {
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
 
-
+    /**
+     * Apply a linear transformation of Histogram on the given image (for all type of images)
+     * @param bmp the given image
+     */
     public static void contrastLinearColor(Bitmap bmp){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
@@ -96,7 +107,10 @@ public class Contrast {
         bmp.setPixels(pixels,0,w,0,0,w,h);
     }
 
-
+    /**
+     * Apply an equalisation of Histogram on the given image (for all type of images)
+     * @param bmp the given image
+     */
     public static void contrastEqualColor(Bitmap bmp){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
@@ -108,7 +122,7 @@ public class Contrast {
         InnerMethods.bitmapToHistHSV(bmp,hist);
 
         int[] C = new int[101];
-        InnerMethods.histToCumul(hist,C,101);
+        InnerMethods.histToCumul(hist,C);
 
         for(int i =0; i<size; i++){
             float[] hsv = new float[3];

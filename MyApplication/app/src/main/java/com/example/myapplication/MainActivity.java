@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.gauss_b).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                KernelConvolution.simpleGaussian(bit);
+                KernelConvolution.Gaussian(bit);
                 iv.setImageBitmap(bit);
             }
         });
@@ -150,8 +150,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-        // SeekBar for keep color (update the color kept when releasing scroll)
-        SeekBar.OnSeekBarChangeListener seekBarKeepColor = new SeekBar.OnSeekBarChangeListener() {
+    // SeekBar for keep color (update the color kept when releasing scroll)
+    SeekBar.OnSeekBarChangeListener seekBarKeepColor = new SeekBar.OnSeekBarChangeListener() {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

@@ -5,6 +5,11 @@ import android.graphics.Color;
 
 public class InnerMethods {
 
+    /**
+     * RGB to HSV conversion
+     * @param pixel the RGB pixel value
+     * @param hsv the HSV pixel result
+     */
     public static void rgb_to_hsv(int pixel,float[] hsv){
         float red_ = (float)Color.red(pixel)/(float)255;
         float blue_ = (float)Color.green(pixel)/(float)255;
@@ -49,6 +54,11 @@ public class InnerMethods {
         hsv[2] = v;
     }
 
+    /**
+     * HSV to RGB conversion
+     * @param hsv the HSV pixel value
+     * @return the RGB pixel value
+     */
     public static int hsv_to_rgb(float[] hsv){
         float t = (int) (hsv[0]/60)%6;
         float f = (hsv[0]/60)- t;
@@ -90,6 +100,11 @@ public class InnerMethods {
 
     }
 
+    /**
+     * RGB array to V array conversion
+     * @param pixels the RGB pixel array
+     * @return the V array
+     */
     public static double[] rgb_to_v(int[] pixels){
         int size = pixels.length;
         double[] V= new double[size];
@@ -106,6 +121,12 @@ public class InnerMethods {
         return V;
     }
 
+    /**
+     * V value to RGB pixel conversion
+     * @param old_rgb the old RGB value of the pixel (useful for the conversion)
+     * @param V the new V value of pixel
+     * @return the new RGB pixel value
+     */
     public static int v_to_rgb(int old_rgb, double V){
         float[] hsv = new float[3];
         rgb_to_hsv(old_rgb,hsv);
@@ -113,6 +134,11 @@ public class InnerMethods {
         return hsv_to_rgb(hsv);
     }
 
+    /**
+     * Calculate Histogram from Bitmap image (histogram with grey values of pixel)
+     * @param bmp the given image
+     * @param hist the output histogram array
+     */
     public static void bitmapToHistGray(Bitmap bmp, int[] hist){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
@@ -123,6 +149,11 @@ public class InnerMethods {
             hist[Color.red(pixels[i])]++;
     }
 
+    /**
+     * Calculate Histogram from Bitmap image (histogram with V value of pixel)
+     * @param bmp the given image
+     * @param hist the output histogram array
+     */
     public static void bitmapToHistHSV(Bitmap bmp,int[] hist){
         int w = bmp.getWidth();
         int h = bmp.getHeight();
@@ -136,17 +167,36 @@ public class InnerMethods {
         }
     }
 
-    public static void histToCumul(int[] hist, int[] C, int size){
+    /**
+     * Calculate cumulative histogram
+     * @param hist the histogram source
+     * @param C the output cumulative histogram
+     */
+    public static void histToCumul(int[] hist, int[] C){
         C[0] = hist[0];
-        for(int i=1; i<size;i++){
+        for(int i=1; i<hist.length;i++){
             C[i] = C[i-1] + hist[i];
         }
     }
 
+    /**
+     * Map a value in given [min,max] interval to a [0,1] interval
+     * @param value the value to map
+     * @param min the minimum of interval
+     * @param max the maximum of interval
+     * @return the new mapped value
+     */
     public static double mapTo0_1(double value, double min, double max){
         return (value-min)/Math.abs(max-min);
     }
 
+    /**
+     * Map a color value H in [0,360] to a target range [targetMin,targetMax]
+     * @param H the color value
+     * @param targetMin the minimum of interval
+     * @param targetMax the maximum of interval
+     * @return the new mapped value
+     */
     public static float mapColor(float H, float targetMin, float targetMax){
         float length = Math.abs(targetMax+360-targetMin)%360;
 
