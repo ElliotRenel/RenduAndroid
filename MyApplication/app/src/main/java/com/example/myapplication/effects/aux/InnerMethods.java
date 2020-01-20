@@ -180,17 +180,6 @@ public class InnerMethods {
     }
 
     /**
-     * Map a value in given [min,max] interval to a [0,1] interval
-     * @param value the value to map
-     * @param min the minimum of interval
-     * @param max the maximum of interval
-     * @return the new mapped value
-     */
-    public static double mapTo0_1(double value, double min, double max){
-        return (value-min)/Math.abs(max-min);
-    }
-
-    /**
      * Map a color value H in [0,360] to a target range [targetMin,targetMax]
      * @param H the color value
      * @param targetMin the minimum of interval
